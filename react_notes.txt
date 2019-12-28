@@ -1,0 +1,33 @@
+use link instead of a because anchor tag will reset react redux / make a request to server for page
+
+
+the way browser router works is that when a user makes a request to /asdf, the server wont find the page since its a Single page app APP so it returns index.html by default which then looks at the url and returns the according page, most servers just give 404 instead of defaulting index html,
+
+workaround is use hash router which makes every request go to # first which server then sees and returnt index html then anythin after the #/ is used to render page
+
+mapstatetoprops is for declaring what variables/methods you want to use in that component from redux store ,doesnt matter that its on bottom
+	-will be props.whatever in funct comp
+	-will be tihs.props.whatever in class comp
+
+proj workflow
+
+1.Setup basic pages
+2.setup page router
+3. setup auth
+4. setup form and fields for create stream page
+5. setup api web server
+6. setup all actionCreators
+
+
+Unix Linux:
+Unix is an OS standard so if u make an os that acts under the Unix guidelines, its a unix, develoepd at UC berkeley like apache spark
+Linus is an implementation of a unix os and became very popular cus it was free and open source and could run on pc
+
+Language Tiers::
+4 tiers of languages- lower level gives you more control but more complex so eas to fk up
+interpreter (lets you execute code step by step without compiling it,translates step by step making it slower)- python, js
+compilers (uses compiler to generate machine code from source)- c, c++, swift, golang ,julia
+assembly- idk
+machine code-
+
+DNS stands for Domain Name System. DNS is how domain names are translated into IP addresses, and DNS also controls email delivery. DNS is what allows you to use your web browser to find web sites as well as send and receive email.

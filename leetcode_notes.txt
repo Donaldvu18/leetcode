@@ -1,0 +1,9 @@
+a=""
+a=None
+if not a:
+    print("YES")
+Yes
+
+not means the variable is empty/empty quotes/null
+
+(while fast.next !=None) is the same as (while fast.next)
