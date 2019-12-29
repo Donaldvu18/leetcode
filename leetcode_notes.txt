@@ -7,3 +7,7 @@ Yes
 not means the variable is empty/empty quotes/null
 
 (while fast.next !=None) is the same as (while fast.next)
+
+binary tree- any number in tree format
+binary search tree- each node has values that are equal/less than on the left sub-tree and values that are greater on the right sub-tree
+balanced binary search tree- same as binary search tree, but left and right sub tree height do not differ by more than 1.

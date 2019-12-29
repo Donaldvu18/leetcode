@@ -353,18 +353,19 @@ return (dummy.next)
 #palindrome linked list
 #56 ms, 22.8mb 99%
 fast = slow = head
-while fast and fast.next:#want to check if current and next is null, cus if either are null, cant go two steps ahead
+while fast and fast.next:#if # of nodes is even, then slow will land right at the node right after the midpoint since fast is traveling twice as fast, then you reverse the following linked list and compare it to the head list
+    #goal is to get fast to the end (null) using 2x speed so just need to check fast and fast.next before advancin two nodes forward
     fast = fast.next.next # wanna go twice as fast as slow
     slow = slow.next
 
 nd = None
-while slow:
+while slow:#reverse the linked list at midway pt
     nxt = slow.next
     slow.next = nd
     nd = slow
     slow = nxt
 
-while nd:
+while nd: # compare the reverse linked list and head
     if nd.val != head.val:
         return (False)
     nd = nd.next
@@ -377,12 +378,12 @@ if not head:
     return (False)
 
 slow = head
-fast = head.next # start off at head.next cus we already know head is not null
+fast = head.next # start off at head.next cus we already know head is not null and dont want to trigger comparison equals
 
-while slow != fast:
-    if fast == None or fast.next == None: #gotta include fast and fsat.next to check all the nodes possible
+while slow != fast: #this part check if there is a cycle
+    if fast == None or fast.next == None: #this part check if there is no cycle
         return (False)
-    fast = fast.next.next
+    fast = fast.next.next #if we cant prove either then, advance both forward until we prove one
     slow = slow.next
 return (True)
 
@@ -422,11 +423,13 @@ while len(stack)>0:
 return (depth)
 
 #Validate Binary Search Tree #just checking that each left element is less than its root val and right is greater
+#alt way is to store inorder traversal of bt in a temp array and check if array is sorted in increasin order, cons r memory space and have to traverse an entire new array on top of traversin bt which we do for either methods, adding O(n) time
+
 #44ms, 15 mb ,94%
 def isValidBST(self, root: TreeNode, floor=float('-inf'), ceiling=float('inf')) -> bool:
     if not root:
         return True
-    if root.val <= floor or root.val >= ceiling:
+    if root.val >= ceiling or root.val <= floor : # right clause is for right subtree meaning values should never be lower than the root, left clause is for left subtree meaning values shud never be higher than the root. floor and ceiling in this case is the root node above the one bein compared
         return False
     # in the left branch, root is the new ceiling; contrarily root is the new floor in right branch
     return self.isValidBST(root.left, floor, root.val) and self.isValidBST(root.right, root.val, ceiling)
@@ -469,6 +472,23 @@ while len(level) > 0:
 
 return (ans)
 
+# or
+
+if not root:
+    return([])
+level=[root]
+ans=[]
+while len(level)>0:
+    res=[x.val for x in level]
+    ans.append(res)
+    queue=[]
+    for i in level:
+        if i.left:
+            queue.append(i.left)
+        if i.right:
+            queue.append(i.right)
+    level=queue
+return(ans)
 #sorted array to BST
 #64 ms , 14.9mb, 98%
 if not nums:
