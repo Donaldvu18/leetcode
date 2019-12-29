@@ -491,10 +491,11 @@ while len(level)>0:
 return(ans)
 #sorted array to BST
 #64 ms , 14.9mb, 98%
+#find midpt, then split into two subtrees, repeat the same for both subtrees
 if not nums:
     return (None)
 
-mid = (len(nums) - 1) // 2
+mid = len(nums) // 2 #takes the floor so 5//2= 2
 
 root = TreeNode(nums[mid])
 root.left = self.sortedArrayToBST(nums[:mid])
@@ -511,20 +512,103 @@ while n > 0:
         n -= 1
     else:
         nums1[m + n - 1] = nums1[m - 1]
-
+        m-=1
 
 #first bad version
 #binary search method
 #28ms, 12.6mb, 90
-        i = 1
-        j = n
+#https://www.youtube.com/watch?v=SNDE-C86n88
+        left = 1
+        right = n
 
         while i < j:
-            mid = i + (j - i) // 2
+            mid = left + (right - left) // 2
 
             if isBadVersion(mid) == True:
-                j = mid
+                right = mid
             else:
-                i = mid + 1
+                left = mid + 1
 
-        return (i)
+        return (left)
+
+#brute force way 
+#overflow error    
+        res=None
+        for i in range(1,n+1):
+            if isBadVersion(i)==True:
+                res=i
+                break
+        
+        return(res)
+
+#Climbing stairs
+#78% bottom up , linear space
+        if n==1: #have to include this initial check or else res[1]=2 will error since res only has one element ex:[0]
+            return(1)
+        res=[0 for x in range(n)]   
+        
+        res[0]=1
+        res[1]=2
+        for i in range(2,n):
+            res[i]=res[i-1]+res[i-2]
+        return(res[n-1])
+
+#91%  Top down + memorization (list) / recursion/ might error in jupyter because of limit on amt of  recurcision calls
+        if n not in self.dic:
+            self.dic[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
+        return self.dic[n]
+
+    def __init__(self): # creates attributes within the instance of the class to call back later, can call it from other functions by referring it to by self within the funct
+        self.dic = {1:1, 2:2}
+
+#Best time to buy n sell
+#97%, linear time, #basically keep global maximum going, only update if i-(i-1) turns a profit
+        max_profit, min_price = 0, float('inf')
+        
+        for price in prices:
+            min_price = min(min_price, price)
+            profit = price - min_price
+            max_profit = max(max_profit, profit)
+        
+        return max_profit
+
+#Maximum Subarray
+#50% linear time and constant space 
+#Kadane's algorithm
+        # dp=[0]*len(nums)
+        # dp[0]=nums[0]
+        
+        for i in range(1,len(nums)):
+            nums[i]=max(nums[i],nums[i-1]+nums[i])
+        return(max(nums))
+
+#naive way would be bruteforce take the sum of all possible sub array 
+#that would take n^2 time, n^3 if you compute each subarray from the start 
+
+#House Robber
+#87% bottom up
+#linear time, linear space
+
+        if not nums:
+            return(0)
+        if len(nums)==1:
+            return(nums[0])
+        dp=[0]*len(nums)
+        dp[0]=nums[0]
+        dp[1]=max(nums[0],nums[1])
+        for i in range(2,len(dp)):
+            dp[i]=max(nums[i]+dp[i-2],dp[i-1])
+        return(dp[len(dp)-1])
+
+#96 bottom up 
+#linear time, constant space
+
+        if not nums:
+            return(0)
+        if len(nums)==1:
+            return(nums[0])
+    
+        nums[1]=max(nums[0],nums[1])
+        for i in range(2,len(nums)):
+            nums[i]=max(nums[i]+nums[i-2],nums[i-1])
+        return(nums[len(nums)-1])
