@@ -542,7 +542,7 @@ while n > 0:
         return(res)
 
 #Climbing stairs
-#78% bottom up , linear space
+#78% bottom up , instead of waiting to make the computation calls when you need em, just compute the entire dp array right away, linear space
         if n==1: #have to include this initial check or else res[1]=2 will error since res only has one element ex:[0]
             return(1)
         res=[0 for x in range(n)]   
@@ -553,7 +553,7 @@ while n > 0:
             res[i]=res[i-1]+res[i-2]
         return(res[n-1])
 
-#91%  Top down + memorization (list) / recursion/ might error in jupyter because of limit on amt of  recurcision calls
+#91%  Top down + memorization (list)  top down means ur making the computation calls as you need them / recursion/ might error in jupyter because of limit on amt of  recurcision calls
         if n not in self.dic:
             self.dic[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
         return self.dic[n]
@@ -563,12 +563,13 @@ while n > 0:
 
 #Best time to buy n sell
 #97%, linear time, #basically keep global maximum going, only update if i-(i-1) turns a profit
+
         max_profit, min_price = 0, float('inf')
         
         for price in prices:
-            min_price = min(min_price, price)
-            profit = price - min_price
-            max_profit = max(max_profit, profit)
+            min_price = min(min_price, price)#iterate thru and find the lowest price
+            profit = price - min_price #keep trackin of profit but we only gon keep when the best one
+            max_profit = max(max_profit, profit) #keep track of which day will give us the highest profit with respective to the lowest price we been tracking
         
         return max_profit
 
@@ -612,3 +613,164 @@ while n > 0:
         for i in range(2,len(nums)):
             nums[i]=max(nums[i]+nums[i-2],nums[i-1])
         return(nums[len(nums)-1])
+
+#shuffle an array
+#88%
+    def __init__(self, nums: List[int]):
+        self.arr=nums
+
+    def reset(self) -> List[int]:
+        """
+        Resets the array to its original configuration and return it.
+        """
+        return(self.arr)
+
+    def shuffle(self) -> List[int]:
+        """
+        Returns a random shuffling of the array.
+        """
+        new=random.sample(self.arr,len(self.arr))
+        return(new)
+
+#min stack
+#17% linear time bad
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.arr=[]
+
+    def push(self, x: int) -> None:
+        self.arr.append(x)
+
+    def pop(self) -> None:
+        del(self.arr[-1])
+
+    def top(self) -> int:
+        return(self.arr[-1])
+
+    def getMin(self) -> int:
+        return(min(self.arr))
+
+#75% constant time
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.arr=[]
+
+    def push(self, x: int) -> None:
+        currentmin=self.getMin()
+        if currentmin==None or x<currentmin:
+            currentmin=x
+        self.arr.append((x,currentmin))
+
+    def pop(self) -> None:
+        self.arr.pop()
+
+    def top(self) -> int:
+        if not self.arr:
+            return(None)
+        
+        return(self.arr[-1][0])
+
+    def getMin(self) -> int:
+        if not self.arr:
+            return(None)
+        
+        return(self.arr[-1][1])
+
+    #FizzBuzz
+    #96% verbose
+            ans=[]
+        for i in range(1,n+1):
+            if (i)%3 ==0 and (i)%5==0:
+                ans.append('FizzBuzz')
+                
+            elif (i)%3==0:
+                ans.append('Fizz')
+            
+            elif (i)%5==0:
+                ans.append('Buzz')
+            
+            else:
+                ans.append(str(i))
+        return(ans)
+
+    # 96% cleaner
+    return ['Fizz' * (not i % 3) + 'Buzz' * (not i % 5) or str(i) for i in range(1, n+1)]# i % 5 == 0 and not 0 is 1
+
+    #count primes
+    #88%
+        if n<3:
+        return(0)
+    
+    ans=[True]*n # keep it at n even tho  Q wants less than n
+    ans[0]=False # becus we throwaway this 0 element
+    ans[1]=False #and the index will have meaning equal the element which is good cus the index will go up to right before n 
+    for i in range(2,int(n/2)+1): # just need to iterate up to the last # whose squared value is equal to or greater than n
+        if ans[i]:
+            ans[i*i:n:i]=[False]*len(ans[i*i:n:i]) 
+            
+    return(sum(ans))
+
+    #Power of 3
+    #78%
+    if n<=0:
+    return(False)
+    
+    while n%3==0:
+        n=n/3
+        
+    return(n==1)
+    #60% not faster but no loop or recursion
+    return n > 0 and 1162261467 % n == 0
+
+    #Roman to Int
+    #55%
+    dic={'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000}
+    amt=0
+    for i in range(len(s)-1):
+        if dic[s[i]]<dic[s[i+1]]:
+            amt-=dic[s[i]]
+        else:
+            amt+=dic[s[i]]
+    
+    return(amt+dic[s[-1]])
+
+#Number of "1" Bits
+#98% uses built in fct
+return(bin(n).count('1'))
+
+#71%
+        c=0
+        while n:
+            n= n & n-1
+            c+=1
+            
+        return(c)
+
+#37% 
+#recurcsion but not efficient
+
+return 0 if n == 0 else 1 + self.hammingWeight(n&(n-1))
+
+#Hamming Distance
+#90% uses biult it bin funct
+
+return(bin(x^y).count('1'))
+
+#74%
+# #1010
+# XOR
+# 1001
+# =
+# 0011
+# x & x-1 is to remove the last bit
+# x ^ y is XOR so it basically gives to you as a result the different bits.
+        x = x ^ y
+        y = 0
+        while x:
+            y += 1
+            x = x & (x - 1)
+        return y
