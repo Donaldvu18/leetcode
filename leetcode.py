@@ -37,7 +37,18 @@ nums[:] = nums[-k:] + nums[:-k]
 
 #Contains duplicate
 #41%
+#set takes O(n) and also takes O(n) space since its creating new array
 return(len(set(nums))!=len(nums))
+
+#Also O(n)  and O(n) space but doesnt use built in cheap functions
+        d={}
+        for i in nums:
+            d[i]=d.get(i,0)+1
+        
+        for i in d.values():
+            if i>1:
+                return(True)
+        return(False)
 
 #Single Number
 #72%
@@ -73,6 +84,22 @@ while True:
         break
 return res
 
+#alt way of 2 pters
+        nums1.sort()
+        nums2.sort()
+
+        index_i, index_j = 0, 0
+        result = []
+        while index_i < len(nums1) and index_j < len(nums2):
+        	if nums1[index_i] == nums2[index_j]:
+        		result.append(nums1[index_i])
+        		index_i += 1
+        		index_j += 1
+        	elif nums1[index_i] > nums2[index_j]:
+        		index_j += 1
+        	else:
+        		index_i += 1
+        return result
 #Counter method 45%
 counts = collections.Counter(nums1)
 res = []
@@ -114,7 +141,22 @@ for i,n in enumerate(nums):
         return([d[des],i])
     else:
         d[n]=i
-
+#99%
+#linear time since using d.get is constantt tim
+        d={}
+        for i,n in enumerate(nums):
+            sol=target-n
+            if d.get(sol,-1)!=-1: 
+                return([i,d[sol]])
+            
+            d[n]=i
+#alternative way, bit slower
+        dic = {}
+        for i, num in enumerate(nums):
+            if num in dic:
+                return [dic[num], i]
+            else:
+                dic[target - num] = i
 #Valid Sudoku
 def isUnitValid(self, unit):
     check = [x for x in unit if x != '.']
@@ -150,6 +192,19 @@ def isValidSudoku(self, board):
 #54% if apply list, 98% if not
 #reverse and then transpote
 matrix[:]=map(list,zip(*matrix[::-1]))
+
+
+#similar ans but doesnt use built in fct
+#O(n**2) which if fastest time 0(1) since in place
+        n = len(matrix[0])        
+        # transpose matrix
+        for i in range(n):
+            for j in range(i, n):
+                matrix[j][i], matrix[i][j] = matrix[i][j], matrix[j][i] 
+        
+        # reverse each row
+        for i in range(n):
+            matrix[i].reverse()
 
 #Reverse String
 #51% returns an iterator ready to traverse the list in reversed order
@@ -774,3 +829,74 @@ return(bin(x^y).count('1'))
             y += 1
             x = x & (x - 1)
         return y
+
+#reverse bits
+
+# x << y
+# Returns x with the bits shifted to the left by y places 
+#8%
+        res = 0
+        for _ in range(32):
+            res = (res<<1) + (n&1)
+            n>>=1
+        return res
+
+#97%
+        res = 0
+        for _ in range(32):
+            res = res << 1 | (n&1)# changed this part
+            n>>=1
+        return res
+
+#pascals triangle
+# one way 42%
+        res = [[1]]
+        for i in range(1, numRows):
+            res += [list(map(lambda x, y: x+y, res[-1] + [0], [0] + res[-1]))]
+        return res[:numRows]
+#more intuitive 82%
+#adds the row to res array before modifying it
+        lists = []
+        for i in range(numRows):
+            lists.append([1]*(i+1)) #i+1 is the # of elements for that row #
+            if i>1 :
+                for j in range(1,i):# so i is the index of last element and we want to exclude it since its gonna be always 1
+                    lists[i][j]=lists[i-1][j-1]+lists[i-1][j]
+        return(lists)
+#method of modifying row first before adding to res array
+#same time space as above
+        res=[]
+        for i in range(numRows):
+            row=[1]*(i+1)
+            if i>1:
+                for j in range(1,i):
+                    row[j]=res[i-1][j-1]+res[i-1][j]
+            res.append(row)
+        return(res)
+
+#Valid parenthesis
+#83% using stacks
+        stack=[]
+        dic={')':'(',']':'[','}':'{'}
+        
+        for i in s:
+            if i in dic.values():# have to set closing  par as keys cus we comparing ( to ) , its not commutative where () is == )( since its iterating in order of s
+                stack.append(i)
+            elif i in dic.keys():
+                if stack==[] or dic[i]!=stack.pop():
+                    return(False)
+            else:
+                return(False)
+        return(stack==[])
+    
+#missing number
+#96% using constant space and constant time
+        n = len(nums)
+        return int(n * (n+1) / 2 - sum(nums))
+
+#83% using linear time and linear space
+        tot=0
+        for i in range(len(nums)+1):
+             # full array shud be 0-9 which is 10 values  but they only give us 9 out of those 10 values, so compute the full by taking range of len(n)+1 
+            tot+=i
+        return(tot-sum(nums))
