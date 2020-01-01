@@ -1,0 +1,26 @@
+
+SUMMARY OF BIG O NOTATION
+time complexity = a way of showing how the runtime of a function increases as size of inputs increases
+
+get rid of constants because we just care about the trend, the constant changes the steepness of the slope, diff computers will have diff runtimes (ex:constant/slope) but will always follow a linear/quad/const function still.
+
+
+USING IN FOR DICTS AND SETS:
+for key in d uses constant time because the "in" keyword calls a __contains__ method which dictionaries implement by hasing the value and looking it up
+use dict.get(key, 3) when u want it to return a specific value when it doesnt exist in d
+
+using in for sets is also O(1)
+sets take up more memory than lists because it offers functionality like quick membership search
+Does in-place mean constant space complexity?
+output may be in place but no, because of possible recursion stack
+
+CHEATSHEET:
+reverse() takes O(N)
+key in d takes O(1)
+sum takes O(N)
+sorted() takes O(N log N) sorted within a for look would tkae O(N**2 log N)
+comparing two lists takes O(N) if same length (hash values may collide), 0(1) if diff lens
+merge() takes O(N)
+slicing an array takes O(N) really O(B-A)
+comparing two string takes O(N)
+val == val[::-1] is O(N) time since cud reverse on separate line

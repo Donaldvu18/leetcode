@@ -11,3 +11,15 @@ not means the variable is empty/empty quotes/null
 binary tree- any number in tree format
 binary search tree- each node has values that are equal/less than on the left sub-tree and values that are greater on the right sub-tree
 balanced binary search tree- same as binary search tree, but left and right sub tree height do not differ by more than 1.
+
+float(inf) is unbounded upper value like looking for min (x, something) , to initialize, instead of putting some arbitary high # 9999 just do float inf
+
+for dp, rule of thumb is, have to create clauses for null event and array with only 1 element event, because you will assign element to index 2 as part of the main code and if its only 1 element in input array then indexError.
+
+#Reverse String
+#51% returns an iterator ready to traverse the list in reversed order
+s[:]=reversed(s)
+#93% does it inplace, modifies the list itself and does not return a value
+s.reversed()
+#15% does not change list but returns reversed slice
+s[:]=s[::-1]
